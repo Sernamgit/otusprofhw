@@ -1,2 +1,4 @@
 rootProject.name = 'homework'
+include 'hw1'
+include 'hw1'
 
