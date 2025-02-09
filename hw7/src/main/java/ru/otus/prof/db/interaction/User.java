@@ -2,21 +2,21 @@ package ru.otus.prof.db.interaction;
 
 @RepositoryTable(title = "users")
 public class User {
-    @RepositoryIdField
-    private Long id;
+    @RepositoryIdField(column = "id")
+    private Long userId;
     @RepositoryField
     private String login;
     @RepositoryField
     private String password;
-    @RepositoryField
-    private String nickname;
+    @RepositoryField(columnName = "nickname")
+    private String username;
 
     public Long getId() {
-        return id;
+        return userId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.userId = id;
     }
 
     public String getLogin() {
@@ -36,30 +36,30 @@ public class User {
     }
 
     public String getNickname() {
-        return nickname;
+        return username;
     }
 
     public void setNickname(String nickname) {
-        this.nickname = nickname;
+        this.username = nickname;
     }
 
     public User() {
     }
 
     public User(Long id, String login, String password, String nickname) {
-        this.id = id;
+        this.userId = id;
         this.login = login;
         this.password = password;
-        this.nickname = nickname;
+        this.username = nickname;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + userId +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", nickname='" + nickname + '\'' +
+                ", nickname='" + username + '\'' +
                 '}';
     }
 }
