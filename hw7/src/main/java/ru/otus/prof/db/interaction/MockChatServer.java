@@ -1,6 +1,7 @@
 package ru.otus.prof.db.interaction;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class MockChatServer {
     public static void main(String[] args) {
@@ -10,21 +11,18 @@ public class MockChatServer {
             dataSource = new DataSource("jdbc:postgresql://localhost:1111/postgres", "postgres", "postgres");
             dataSource.connect();
 
-            UsersDao usersDao = new UsersDao(dataSource);
-            usersDao.init();
-            System.out.println(usersDao.getAllUsers());
-            usersDao.save(new User(null, "A", "A", "A"));
-            System.out.println(usersDao.getAllUsers());
+            DbMigrator dbMigrator = new DbMigrator(dataSource);
+            dbMigrator.migrate();
+
+
             AbstractRepository<User> usersRepository = new AbstractRepository<>(dataSource, User.class);
-            usersRepository.save(new User(null, "B", "B", "B"));
-            System.out.println(usersDao.getAllUsers());
+            usersRepository.save(new User(null, "A", "B", "C"));
 
-            AuthenticationService authenticationService = new AuthenticationService(usersDao);
-            UsersStatisticService usersStatisticService = new UsersStatisticService(usersDao);
-            BonusService bonusService = new BonusService(dataSource);
-            bonusService.init();
+            List<User> users = usersRepository.findAll();
+            for (User user : users){
+                System.out.println(user);
+            }
 
-            authenticationService.register("A", "A", "A");
 //             Основная работа сервера чата
         } catch (SQLException e) {
             e.printStackTrace();

@@ -14,18 +14,6 @@ public class UsersDao {
         this.dataSource = dataSource;
     }
 
-    public void init() throws SQLException {
-        dataSource.getStatement().executeUpdate(
-                "" +
-                        "create table if not exists users (" +
-                        "    id          bigserial primary key," +
-                        "    login       varchar(255)," +
-                        "    password    varchar(255)," +
-                        "    nickname    varchar(255)" +
-                        ")"
-        );
-    }
-
     public Optional<User> getUserByLoginAndPassword(String login, String password) {
         try (ResultSet rs = dataSource.getStatement().executeQuery("select * from users where login = '" + login + "' AND password = '" + password + "'")) {
             return Optional.of(new User(rs.getLong("id"), rs.getString("login"), rs.getString("password"), rs.getString("nickname")));
